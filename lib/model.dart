@@ -2,7 +2,7 @@ mixin ToModel {}
 
 /// Tiny type container
 class Model<T> {
-  T value;
+  T? value;
   Model(this.value);
 
   bool operator ==(o) => o is Model && o.value == value;

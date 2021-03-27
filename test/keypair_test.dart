@@ -8,7 +8,7 @@ void main() {
     HexPublicKey hexPublicKey = kp.hexPublicKey;
     HexPrivateKey hexPrivateKey = kp.hexPrivateKey;
 
-    expect(hexPrivateKey.value.length, 64);
-    expect(hexPublicKey.value.length, 64);
+    expect(hexPrivateKey.value!.length, 64);
+    expect(hexPublicKey.value!.length, 64);
   });
 }

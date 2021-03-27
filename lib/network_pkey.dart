@@ -4,8 +4,8 @@ import 'model.dart';
 /// * network
 /// * hexPrivateKey
 class NetworkPKey {
-  NetworkPrefix _networkPrefix;
-  HexPrivateKey _hexPrivateKey;
+  NetworkPrefix? _networkPrefix;
+  HexPrivateKey? _hexPrivateKey;
 
   NetworkPKey(NetworkPrefix _networkPrefix, HexPrivateKey hexPrivateKey) {
     this._networkPrefix = _networkPrefix;
@@ -13,12 +13,12 @@ class NetworkPKey {
   }
 
   /// Returns the network
-  NetworkPrefix get networkPrefix {
+  NetworkPrefix? get networkPrefix {
     return _networkPrefix;
   }
 
   /// Returns the privateKey in hex format
-  HexPrivateKey get hexPrivateKey {
+  HexPrivateKey? get hexPrivateKey {
     return _hexPrivateKey;
   }
 }

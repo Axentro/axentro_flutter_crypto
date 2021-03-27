@@ -116,7 +116,7 @@ class WalletFactory {
   ///
   /// Wif wif = new WalletFactory().generateWif(hexPrivateKey, Network.testnet);
   Wif generateWif(HexPrivateKey hexPrivateKey, NetworkPrefix networkPrefix) {
-    String networkKey = networkPrefix.value + hexPrivateKey.value;
+    String networkKey = networkPrefix.value! + hexPrivateKey.value!;
     String hashedKey = _toSha256(_toSha256(networkKey));
     String checkSum = hashedKey.substring(0, 6);
     return Wif(_toBase64(networkKey + checkSum));
@@ -127,8 +127,8 @@ class WalletFactory {
   /// Address address = new WalletFactory().generateAddress(hexPublicKey, Network.testnet);
   Address generateAddress(
       HexPublicKey hexPublicKey, NetworkPrefix networkPrefix) {
-    String hashedAddress = _toRipeMd160(_toSha256(hexPublicKey.value));
-    String networkAddress = networkPrefix.value + hashedAddress;
+    String hashedAddress = _toRipeMd160(_toSha256(hexPublicKey.value!));
+    String networkAddress = networkPrefix.value! + hashedAddress;
     String hashedAddressAgain = _toSha256(_toSha256(networkAddress));
     String checksum = hashedAddressAgain.substring(0, 6);
     return Address(_toBase64(networkAddress + checksum));
@@ -139,8 +139,8 @@ class WalletFactory {
   /// Future<BasicWallet> basicWallet = await new WalletFactory().getWalletFromWif(wif);
   Future<BasicWallet> getWalletFromWif(Wif wif) async {
     var networkPrivateKey = getPrivateKeyAndNetworkFromWif(wif);
-    HexPrivateKey hexPrivateKey = networkPrivateKey.hexPrivateKey;
-    NetworkPrefix networkPrefix = networkPrivateKey.networkPrefix;
+    HexPrivateKey hexPrivateKey = networkPrivateKey.hexPrivateKey!;
+    NetworkPrefix networkPrefix = networkPrivateKey.networkPrefix!;
 
     var hexPublicKey = await getPublicKeyFromPrivateKey(hexPrivateKey);
     var address = generateAddress(hexPublicKey, networkPrefix);
@@ -152,8 +152,8 @@ class WalletFactory {
   /// Future<FullWallet> fullWallet = await new WalletFactory().getFullWalletFromWif(wif);
   Future<FullWallet> getFullWalletFromWif(Wif wif) async {
     var networkPrivateKey = getPrivateKeyAndNetworkFromWif(wif);
-    HexPrivateKey hexPrivateKey = networkPrivateKey.hexPrivateKey;
-    NetworkPrefix networkPrefix = networkPrivateKey.networkPrefix;
+    HexPrivateKey hexPrivateKey = networkPrivateKey.hexPrivateKey!;
+    NetworkPrefix networkPrefix = networkPrivateKey.networkPrefix!;
     var hexPublicKey = await getPublicKeyFromPrivateKey(hexPrivateKey);
     var address = generateAddress(hexPublicKey, networkPrefix);
     return FullWallet(hexPublicKey, hexPrivateKey, wif, address, networkPrefix);
@@ -168,11 +168,11 @@ class WalletFactory {
     var key = _toSha256I(password);
     var iv = _toSha256I(walletJson).sublist(0, 16);
     CipherParameters params = new PaddedBlockCipherParameters(
-        new ParametersWithIV(new KeyParameter(key), iv), null);
+        new ParametersWithIV(new KeyParameter(key as Uint8List), iv as Uint8List), null);
 
     BlockCipher encryptionCipher = new PaddedBlockCipher("AES/CBC/PKCS7");
     encryptionCipher.init(true, params);
-    Uint8List encrypted = encryptionCipher.process(utf8.encode(walletJson));
+    Uint8List encrypted = encryptionCipher.process(utf8.encode(walletJson) as Uint8List);
     String cipherText = hex.encode(encrypted);
 
     return EncryptedWallet(Source("flutter"), CipherText(cipherText),
@@ -188,11 +188,11 @@ class WalletFactory {
     var key = _toSha256I(password);
     var iv = _toSha256I(walletJson).sublist(0, 16);
     CipherParameters params = new PaddedBlockCipherParameters(
-        new ParametersWithIV(new KeyParameter(key), iv), null);
+        new ParametersWithIV(new KeyParameter(key as Uint8List), iv as Uint8List), null);
 
     BlockCipher encryptionCipher = new PaddedBlockCipher("AES/CBC/PKCS7");
     encryptionCipher.init(true, params);
-    Uint8List encrypted = encryptionCipher.process(utf8.encode(walletJson));
+    Uint8List encrypted = encryptionCipher.process(utf8.encode(walletJson) as Uint8List);
     String cipherText = hex.encode(encrypted);
 
     return EncryptedWallet(Source("flutter"), CipherText(cipherText),
@@ -204,17 +204,17 @@ class WalletFactory {
   /// BasicWallet maybeWallet = new WalletFactory().decryptWallet(encryptedWallet, password);
   BasicWallet decryptWallet(EncryptedWallet wallet, String password) {
     var key = _toSha256I(password);
-    var iv = hex.decode(wallet.salt.value);
-    var message = hex.decode(wallet.cipherText.value);
+    var iv = hex.decode(wallet.salt.value!);
+    var message = hex.decode(wallet.cipherText.value!);
 
     CipherParameters params = new PaddedBlockCipherParameters(
-        new ParametersWithIV(new KeyParameter(key), iv), null);
+        new ParametersWithIV(new KeyParameter(key as Uint8List), iv as Uint8List), null);
 
     BlockCipher decryptionCipher = new PaddedBlockCipher("AES/CBC/PKCS7");
     decryptionCipher.init(false, params);
-    String decrypted = utf8.decode(decryptionCipher.process(message));
+    String decrypted = utf8.decode(decryptionCipher.process(message as Uint8List));
     Map map = jsonDecode(decrypted);
-    BasicWallet basicWallet = BasicWallet.fromJson(map);
+    BasicWallet basicWallet = BasicWallet.fromJson(map as Map<String, dynamic>);
     return basicWallet;
   }
 
@@ -223,17 +223,17 @@ class WalletFactory {
   /// HdWallet hdWallet = new WalletFactory().decryptHdWallet(encryptedWallet, password);
   HdWallet decryptHdWallet(EncryptedWallet wallet, String password) {
     var key = _toSha256I(password);
-    var iv = hex.decode(wallet.salt.value);
-    var message = hex.decode(wallet.cipherText.value);
+    var iv = hex.decode(wallet.salt.value!);
+    var message = hex.decode(wallet.cipherText.value!);
 
     CipherParameters params = new PaddedBlockCipherParameters(
-        new ParametersWithIV(new KeyParameter(key), iv), null);
+        new ParametersWithIV(new KeyParameter(key as Uint8List), iv as Uint8List), null);
 
     BlockCipher decryptionCipher = new PaddedBlockCipher("AES/CBC/PKCS7");
     decryptionCipher.init(false, params);
-    String decrypted = utf8.decode(decryptionCipher.process(message));
+    String decrypted = utf8.decode(decryptionCipher.process(message as Uint8List));
     Map map = jsonDecode(decrypted);
-    HdWallet hdWallet = HdWallet.fromJson(map);
+    HdWallet hdWallet = HdWallet.fromJson(map as Map<String, dynamic>);
     return hdWallet;
   }
 
@@ -241,7 +241,7 @@ class WalletFactory {
   ///
   /// NetworkPKey networkPrivateKey = new WalletFactory().getPrivateKeyAndNetworkFromWif(wif);
   NetworkPKey getPrivateKeyAndNetworkFromWif(Wif wif) {
-    String decodedWif = _fromBase64(wif.value);
+    String decodedWif = _fromBase64(wif.value!);
     NetworkPrefix networkPrefix = NetworkPrefix(decodedWif.substring(0, 2));
     HexPrivateKey hexPrivateKey =
         HexPrivateKey(decodedWif.substring(2, decodedWif.length - 6));
@@ -253,7 +253,7 @@ class WalletFactory {
   /// Future<HexPublicKey> hexPublicKey = await new WalletFactory().getPublicKeyFromPrivateKey(hexPrivateKey);
   Future<HexPublicKey> getPublicKeyFromPrivateKey(
       HexPrivateKey hexPrivateKey) async {
-    var privateKeyBytes = hex.decode(hexPrivateKey.value);
+    var privateKeyBytes = hex.decode(hexPrivateKey.value!);
     return HexPublicKey(
         hex.encode(await ED25519_HD_KEY.getPublicKey(privateKeyBytes, false)));
   }
@@ -279,7 +279,7 @@ class WalletFactory {
 
   String _toRipeMd160(String message) {
     List<int> bytes = utf8.encode(message);
-    return _ripemd160Digest(bytes);
+    return _ripemd160Digest(bytes as Uint8List);
   }
 
   String _ripemd160Digest(Uint8List input) {

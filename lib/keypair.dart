@@ -7,17 +7,17 @@ import 'model.dart';
 /// * publicKey
 /// * privateKey
 class KeyPair {
-  ed.PublicKey publicKey;
-  ed.PrivateKey privateKey;
+  ed.PublicKey? publicKey;
+  late ed.PrivateKey privateKey;
 
   KeyPair(ed.KeyPair keyPair) {
     this.publicKey = keyPair.publicKey;
-    this.privateKey = ed.PrivateKey(keyPair.privateKey.bytes.sublist(0, 32));
+    this.privateKey = ed.PrivateKey(keyPair.privateKey!.bytes.sublist(0, 32));
   }
 
   /// Returns the publicKey in hex format
   HexPublicKey get hexPublicKey {
-    return HexPublicKey(hex.encode(publicKey.bytes));
+    return HexPublicKey(hex.encode(publicKey!.bytes));
   }
 
   /// Returns the privateKey in hex format

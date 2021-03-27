@@ -13,8 +13,8 @@ class HdWallet {
   HexPublicKey hexPublicKey;
   Wif wif;
   Address address;
-  String seed;
-  String mnemonic;
+  String? seed;
+  String? mnemonic;
 
   HdWallet(
       this.hexPrivateKey, this.hexPublicKey, this.wif, this.address, this.seed, this.mnemonic);

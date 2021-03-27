@@ -12,9 +12,9 @@ void main() {
   test('can generate a new wallet', () {
     var basicWallet = walletFactory.generateNewWallet(Network.testnet);
     expect(basicWallet, isA<BasicWallet>());
-    expect(basicWallet.hexPublicKey.value.length, 64);
-    expect(basicWallet.wif.value.length, 96);
-    expect(basicWallet.address.value.length, 64);
+    expect(basicWallet.hexPublicKey.value!.length, 64);
+    expect(basicWallet.wif.value!.length, 96);
+    expect(basicWallet.address.value!.length, 64);
   });
 
   test('can generate a new encrypted wallet', () {
@@ -26,15 +26,15 @@ void main() {
   test('can generate a new hd wallet', () async {
     var hdWallet = await walletFactory.generateNewHdWallet(Network.testnet);
     expect(hdWallet, isA<HdWallet>());
-    expect(hdWallet.hexPrivateKey.value.length, 64);
-    expect(hdWallet.hexPublicKey.value.length, 64);
-    expect(hdWallet.wif.value.length, 96);
-    expect(hdWallet.address.value.length, 64);
+    expect(hdWallet.hexPrivateKey.value!.length, 64);
+    expect(hdWallet.hexPublicKey.value!.length, 64);
+    expect(hdWallet.wif.value!.length, 96);
+    expect(hdWallet.address.value!.length, 64);
   });
 
   test('can recover an hd wallet from a mnemonic', () async {
     var hdWallet = await walletFactory.generateNewHdWallet(Network.testnet);
-    var mnemonic = hdWallet.mnemonic;
+    var mnemonic = hdWallet.mnemonic!;
     var recoveredHdWallet = await walletFactory.recoverHdWalletFromMnemonic(
         mnemonic, Network.testnet);
     expect(recoveredHdWallet.hexPrivateKey, hdWallet.hexPrivateKey);
