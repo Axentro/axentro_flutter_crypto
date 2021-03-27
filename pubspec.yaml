@@ -1,7 +1,6 @@
 name: axentro 
 description: Axentro flutter crypto package
 version: 0.0.1
-author: Kingsley Hendrickse <kingsley@axentro.io>
 homepage: https://axentro.io
 
 environment:
