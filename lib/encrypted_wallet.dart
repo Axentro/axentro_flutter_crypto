@@ -19,8 +19,8 @@ class EncryptedWallet {
         address = Address(json['address']),
         salt = Salt(json['salt']);
 
-  Map<String, dynamic> toJson() =>
-      {'source': source.value,
+  Map<String, dynamic> toJson() => {
+        'source': source.value,
         'ciphertext': cipherText.value,
         'address': address.value,
         'salt': salt.value

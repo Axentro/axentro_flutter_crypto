@@ -1,12 +1,11 @@
-mixin ToModel{}
+mixin ToModel {}
 
 /// Tiny type container
-class Model<T>{
+class Model<T> {
   T value;
   Model(this.value);
 
-  bool operator ==(o) =>
-      o is Model && o.value == value;
+  bool operator ==(o) => o is Model && o.value == value;
 
   int get hashCode => value.hashCode;
 

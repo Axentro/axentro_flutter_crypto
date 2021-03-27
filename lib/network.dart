@@ -3,10 +3,7 @@ import 'model.dart';
 /// The network
 /// * mainnet
 /// * testnet
-enum Network {
-  testnet,
-  mainnet
-}
+enum Network { testnet, mainnet }
 
 /// Given a Network enum it returns the prefix
 /// e.g. 'M0' or 'T0'

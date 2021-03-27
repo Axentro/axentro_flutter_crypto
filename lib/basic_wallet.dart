@@ -18,14 +18,18 @@ class BasicWallet {
         wif = Wif(json['wif']),
         address = Address(json['address']);
 
-  Map<String, dynamic> toJson() =>
-      {'hexPublicKey': hexPublicKey.value, 'wif': wif.value, 'address': address.value};
+  Map<String, dynamic> toJson() => {
+        'hexPublicKey': hexPublicKey.value,
+        'wif': wif.value,
+        'address': address.value
+      };
 
   bool operator ==(o) =>
       o is BasicWallet &&
       o.hexPublicKey.value == hexPublicKey.value &&
-      o.wif.value          == wif.value &&
-      o.address.value      == address.value;
+      o.wif.value == wif.value &&
+      o.address.value == address.value;
 
-  int get hashCode => hash3(hexPublicKey.hashCode, wif.hashCode, address.hashCode);
+  int get hashCode =>
+      hash3(hexPublicKey.hashCode, wif.hashCode, address.hashCode);
 }

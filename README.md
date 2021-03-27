@@ -13,6 +13,14 @@ A Flutter plugin for iOS and Android providing the base crypto functions for the
 * encryptWallet
 * decryptWallet
 
+**Hd Wallets**
+
+* generateNewHdWallet
+* generateNewEncyrptedHdWallet
+* encryptHdWallet
+* decryptHdWallet
+* recoverHdWalletFromMnemonic
+
 ## Installation
 
 Add the dependency to your `pubspec.yaml`
@@ -25,11 +33,8 @@ dependencies:
 ## Example
 
 ```dart
-import 'package:dartz/dartz.dart';
 import 'package:axentro/network.dart';
 import 'package:axentro/wallet_factory.dart';
 
-walletFactory.generateNewWallet(Network.testnet).fold(handleErrorHere,(basicWallet){
-  // Do something with the basicWallet here
-});
+ var hdWallet = await walletFactory.generateNewHdWallet(Network.testnet);
 ```

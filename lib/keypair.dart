@@ -12,7 +12,7 @@ class KeyPair {
 
   KeyPair(ed.KeyPair keyPair) {
     this.publicKey = keyPair.publicKey;
-    this.privateKey = keyPair.privateKey;
+    this.privateKey = ed.PrivateKey(keyPair.privateKey.bytes.sublist(0, 32));
   }
 
   /// Returns the publicKey in hex format
